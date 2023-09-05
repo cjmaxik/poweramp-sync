@@ -12,7 +12,6 @@ const settingsFile = join(__dirname, 'settings.json')
 if (!existsSync(settingsFile)) throw new Error('Settings file does not exist!')
 
 const settings = JSON.parse(await readFile(settingsFile))
-console.debug(settings)
 
 const TEMP_FOLDER = join(__dirname, 'temp')
 const LIST_EXPORT_FILE = join(TEMP_FOLDER, 'lists-export')
@@ -23,8 +22,9 @@ const REMOTE_PATH = settings.remote_path
 const LOCAL_PATH = join(FILE_FOLDER, settings.local_subfolder)
 const RATED_SUBFOLDER = settings.rated_subfolder
 
-const DRY_RUN = settings.dry_run
-console.log(DRY_RUN ? 'dry_run' : 'PROD')
+const DRY_RUN = process.argv.includes('--dry')
+console.log('### Rating Sync for Poweramp')
+console.log(DRY_RUN ? 'Dry run. No changes.' : '!!! Commiting changes...')
 
 // Loading backup folder
 const backupFiles = await readdir(FILE_FOLDER)
