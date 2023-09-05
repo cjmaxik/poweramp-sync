@@ -43,7 +43,6 @@ Phone:
 3. Install dependencies with `npm install`
 4. Rename `settings.json.example` to `settings.json`
 5. Fill `settings.json`:
-    - `dry_run`: if `true`, does not move/delete files; set to `false` to make permanent changes
     - `file_folder`: path to the sync folder on PC
     - `remote_path`: path to the sync folder on the phone
     - `local_subfolder`: name of the folder with music inside sync folder
