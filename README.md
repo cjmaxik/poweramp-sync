@@ -38,21 +38,21 @@ Phone:
 
 ## Preparations
 
-1. Install Node.js (latest LTS)
+1. Install Node.js (latest LTS) and pnpm
 2. Clone this repository
-3. Install dependencies with `npm install`
+3. Install dependencies with `pnpm install`
 4. Rename `settings.json.example` to `settings.json`
 5. Fill `settings.json`:
-    - `file_folder`: path to the sync folder on PC
-    - `remote_path`: path to the sync folder on the phone
-    - `local_subfolder`: name of the folder with music inside sync folder
-    - `rated_subfolder`: name of the folder to move rated music to
+   - `file_folder`: path to the sync folder on PC
+   - `remote_path`: path to the sync folder on the phone
+   - `local_subfolder`: name of the folder with music inside sync folder
+   - `rated_subfolder`: name of the folder to move rated music to
 6. Export Ratings data from Poweramp
-    - Settings ->
-    - Leave one checkmark on **Ratings and track statistics** ->
-    - Export the file to `remote_path` folder
+   - Settings ->
+   - Leave one checkmark on **Ratings and track statistics** ->
+   - Export the file to `remote_path` folder
 7. Sync the data to PC
 8. Run the utility
-    - `npm run dry` to see the upcoming changes
-    - `npm run commit` to commit changes in your filesystem
-9. *(optional)* Perform **Full Rescan** in Poweramp to update file paths in the Library
+   - `npm run dry` to see the upcoming changes
+   - `npm run commit` to commit changes in your filesystem
+9. _(optional)_ Perform **Full Rescan** in Poweramp to update file paths in the Library
