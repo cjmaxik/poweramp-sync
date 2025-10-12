@@ -38,9 +38,9 @@ Phone:
 
 ## Preparations
 
-1. Install Node.js (latest LTS) and pnpm
+1. Install Bun (https://bun.sh/) and ensure `bun` is on your PATH
 2. Clone this repository
-3. Install dependencies with `pnpm install`
+3. Install dependencies with `bun install`
 4. Rename `settings.json.example` to `settings.json`
 5. Fill `settings.json`:
    - `file_folder`: path to the sync folder on PC
@@ -53,6 +53,8 @@ Phone:
    - Export the file to `remote_path` folder
 7. Sync the data to PC
 8. Run the utility
-   - `npm run dry` to see the upcoming changes
-   - `npm run commit` to commit changes in your filesystem
+
+- `bun run dry` to see the upcoming changes (dry run)
+- `bun run commit` to commit changes in your filesystem
+
 9. _(optional)_ Perform **Full Rescan** in Poweramp to update file paths in the Library

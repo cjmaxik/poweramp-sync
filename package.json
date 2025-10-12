@@ -5,21 +5,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dry": "node index.js --dry",
-    "commit": "node index.js"
+    "dry": "bun index.js --dry",
+    "commit": "bun index.js"
   },
   "author": "CJMAXiK",
   "license": "MIT",
   "dependencies": {
-    "better-sqlite3": "^12.2.0",
     "decompress": "^4.2.1"
   },
   "devDependencies": {
     "prettier": "^3.6.2"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3"
-    ]
   }
 }

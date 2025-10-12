@@ -1,9 +1,9 @@
 import { fileURLToPath } from "url"
 import { join, extname, normalize, dirname, basename } from "path"
 import { existsSync } from "fs"
-import { cp, readFile, readdir, unlink } from "fs/promises"
+import { cp, readFile, readdir, unlink, mkdir } from "fs/promises"
 import decompress from "decompress"
-import Database from "better-sqlite3"
+import { Database } from "bun:sqlite"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -44,46 +44,47 @@ const backupFile = join(FILE_FOLDER, targetFiles[0])
 await decompress(backupFile, TEMP_FOLDER)
 
 // Load lists export db
-const db = new Database(LIST_EXPORT_FILE, { verbose: console.debug })
-db.pragma("journal_mode = WAL")
+const db = new Database(LIST_EXPORT_FILE)
+db.exec("PRAGMA journal_mode = WAL;")
 
 // Extract paths
-const stmt = db.prepare(`
+const query = db.query(`
     SELECT path, rating, readable_name
     FROM tracks 
     WHERE rating > 0 
     ORDER BY rating DESC
 `)
-const tracks = stmt.all()
+const tracks = query.all()
 console.debug(tracks)
 
-tracks.forEach(async (track) => {
+// Process tracks using an async-friendly loop so awaits work correctly
+for (const track of tracks) {
   const localPath = join(LOCAL_PATH, track.path.replace(REMOTE_PATH, ""))
   const ratedPath = join(LOCAL_PATH, RATED_SUBFOLDER, basename(localPath))
-  if (localPath === ratedPath) return
+  if (localPath === ratedPath) continue
 
   console.log(`Current file: ${track.readable_name} | rated ${track.rating}`)
 
   if (!existsSync(localPath)) {
     console.warn("File not found: ", track.path)
-    return
+    continue
   }
 
   if (track.rating === 5) {
     console.log("...copying to", ratedPath)
     if (!DRY_RUN) {
+      await mkdir(dirname(ratedPath), { recursive: true })
       await cp(localPath, ratedPath, { force: true })
       await unlink(localPath)
-
-      return
     }
+    continue
   }
 
   if (track.rating === 1) {
     console.log("...removing")
     if (!DRY_RUN) await unlink(localPath)
   }
-})
+}
 
 // Clear temp folder
 db.close()
